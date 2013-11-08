@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+use strict;
+
+sub open_config {
+	my $configfile = shift || die;
+
+	open my $fd, "<$configfile";
+
+	my $configtxt = do {
+		local $/;
+		<$fd>;
+	};
+	close $fd;
+
+	my %options = $configtxt =~ /^(\S+?):\s*(\S.*)$/gm;
+
+	return \%options;
+}
+
+my @files = grep { -e $_ } glob qq( ~/.dkim-keys /etc/dkim-keys.conf );
+
+die "Could not find any config files" unless( scalar @files > 0 );
+
+my $options = open_config $files[0] || die "Could not parse $files[0]";
+
+my $option = shift @ARGV || die "You must specify an argument";
+
+die "Config setting not found" unless defined $options->{"$option"};
+
+print $options->{"$option"} . "\n";

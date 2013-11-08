@@ -1,0 +1,12 @@
+#!/usr/bin/perl
+use strict;
+
+use Getopt::Long;
+
+my $format = '%s._domainkey.%d';
+my ($s,$d);
+
+GetOptions( 	'd=s' => \$d,
+		's=s' => \$s,
+		'format=s' => \$format,
+);
