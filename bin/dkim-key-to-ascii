@@ -1,0 +1,10 @@
+#!/usr/bin/perl -w
+use strict;
+
+my $_ = do { local $/; <>; };
+
+if( /-----BEGIN .*?KEY-----(.*)-----END .*?KEY-----/gsm ){
+	my $k = $1;
+	$k =~ s/\s//g;
+	print $k . "\n";
+}

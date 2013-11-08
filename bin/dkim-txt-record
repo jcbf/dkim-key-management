@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# v=DKIM1;t=s;p=
+
+dkim-key-to-ascii $1 | xargs printf "v=DKIM1;t=s;p=%s\n"

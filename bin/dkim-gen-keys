@@ -1,0 +1,22 @@
+#!/bin/bash
+
+SEL=$1
+DOM=$2
+
+if [ -z $SEL ]; then
+	echo "You must specify a selector and domain name as the two args"
+	exit 1
+fi
+
+if [ -z $DOM ]; then
+	echo "You must specify a selector and domain name as the two args"
+	exit 1
+fi
+
+if [ -e ${SEL}._domainkey.${DOM}.key -o -e ${SEL}._domainkey.${DOM}.pem ]; then
+	echo "Supplied selector and domain already have key files"
+	exit 2
+fi
+
+openssl genrsa -out ${SEL}._domainkey.${DOM}.key 1024
+openssl rsa -in ${SEL}._domainkey.${DOM}.key -out ${SEL}._domainkey.${DOM}.pem -pubout -outform PEM
